@@ -2,7 +2,7 @@
 
 Personal portfolio of **Nalinikanta Pani** — Full Stack Dev, Applied AI & Data Science @ IIT Jodhpur.
 
-**Live:** https://paninalinikanta352-collab.github.io/Nalinikanta-Portfolio/
+**Live:** https://paninalinikanta352-collab.github.io/NaliniKanta-Portfolio/
 
 ## Built with
 - Pure HTML + CSS + JavaScript — single file, zero frameworks
