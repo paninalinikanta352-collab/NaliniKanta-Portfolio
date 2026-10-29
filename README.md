@@ -12,6 +12,7 @@ Personal portfolio of **Nalinikanta Pani** — Full Stack Dev, Applied AI & Data
 ## Projects
 - **StudentVault** — Notes sharing backend (FastAPI, JWT auth)
 - **LinkBolt API** — URL shortener with click analytics (FastAPI)
+- **CivicFix** — Civic issue reporting platform (FastAPI + Next.js)
 
 ## Run locally
 Clone and open `index.html` in any browser.
