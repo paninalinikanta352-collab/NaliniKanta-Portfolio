@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Supreme.py — Nalinikanta Pani | Full Stack Dev · Applied AI & Data Science @ IIT Jodhpur</title>
+<title>Nalinikanta Pani | Full Stack Dev · Applied AI & Data Science @ IIT Jodhpur</title>
 <meta name="description" content="Portfolio of Nalinikanta Pani — Full Stack Developer and student at IIT Jodhpur. Python, FastAPI, React, PostgreSQL. Builder of StudentVault, LinkBolt API and CivicFix.">
-<meta property="og:title" content="Supreme.py — Nalinikanta Pani">
+<meta property="og:title" content="Nalinikanta Pani — Portfolio">
   <meta property="og:description" content="Full Stack Dev · Applied AI & Data Science @ IIT Jodhpur. StudentVault, LinkBolt API, CivicFix and more.">
 <meta property="og:type" content="profile">
 <meta property="og:image" content="https://avatars.githubusercontent.com/u/282042517?v=4">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Supreme.py — Nalinikanta Pani">
+<meta name="twitter:title" content="Nalinikanta Pani — Portfolio">
 <meta name="twitter:description" content="Full Stack Dev · Applied AI & Data Science @ IIT Jodhpur — StudentVault, LinkBolt API, CivicFix.">
 <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/282042517?v=4">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -502,7 +502,7 @@ nav a.active { color: var(--accent); }
 
 <div class="cursor-dot" id="cursor-dot"></div>
 <div class="cursor-ring" id="cursor-ring"></div>
-<div id="navwipe"><span>S.py</span></div>
+<div id="navwipe"><span>NP</span></div>
 
 <button id="topbtn" title="Back to top">&uarr;</button>
 
@@ -514,7 +514,6 @@ nav a.active { color: var(--accent); }
 // EDIT THIS BLOCK ONLY — everything on the page renders from here
 const SITE_DATA = {
   name: "Nalinikanta Pani",
-  handle: "Supreme",
   tagline: "Full Stack Dev · Applied AI & Data Science @ IIT Jodhpur",
   about: "Hi, I'm Nalinikanta Pani, a student of Applied AI & Data Science at IIT Jodhpur and a passionate Full Stack Developer who loves building innovative and impactful web applications.\n\n💻 I work with Python, JavaScript, React, HTML, and CSS for frontend development, along with FastAPI, SQLite, PostgreSQL, SQLAlchemy, and JWT Authentication for backend development.\n\n🚀 I'm enthusiastic about participating in hackathons, where I can collaborate with like-minded developers, brainstorm creative ideas, solve real-world problems, and turn innovative concepts into working solutions. I enjoy exploring new technologies, taking on challenges, and continuously improving my skills.\n\n🌱 Always learning, building, collaborating, and looking for exciting opportunities to innovate through code and hackathons.",
   skills: ["Python", "JavaScript", "React", "HTML", "CSS", "FastAPI", "PostgreSQL", "SQLAlchemy", "SQLite", "JWT Authentication", "Git", "GitHub"],
@@ -570,7 +569,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">
 
 const d = SITE_DATA;
 
-$("logo").innerHTML = esc(d.handle) + "<span>.py</span>";
+$("logo").innerHTML = "Nalinikanta <span>Pani</span>";
 const av = $("avatar");
 if (d.avatarImage) av.innerHTML = `<img src="${esc(d.avatarImage)}" alt="${esc(d.name)}">`;
 else av.textContent = d.avatarInitials;
@@ -587,7 +586,7 @@ const socialDefs = [
 ];
 $("socials").innerHTML = socialDefs
   .filter(x => x[2])
-  .map(x => `<a class="btn" href="${esc(x[2])}" target="_blank" rel="noopener">${SOCIAL_ICONS[x[0]]}${x[1]}</a>`)
+  .map(x => `<a class="btn" href="${esc(x[2])}"${x[2].startsWith("http") ? ' target="_blank" rel="noopener"' : ""}>${SOCIAL_ICONS[x[0]]}${x[1]}</a>`)
   .join("");
 if (d.resume) $("socials").insertAdjacentHTML("beforeend", `<a class="btn primary" href="${esc(d.resume)}" target="_blank" rel="noopener">Resume &darr;</a>`);
 
@@ -607,11 +606,20 @@ $("contact-box").innerHTML = d.contactRows.map(r => `
     <span class="label">${esc(r.label)}</span>
     <span class="value">
       ${r.value.startsWith("http") || r.value.includes("@") && r.label === "Email"
-        ? `<a href="${esc(r.value.startsWith("http") ? r.value : "mailto:" + r.value)}" target="_blank" rel="noopener">${esc(r.value)}</a>`
+        ? `<a href="${esc(r.value.startsWith("http") ? r.value : "mailto:" + r.value)}"${r.value.startsWith("http") ? ' target="_blank" rel="noopener"' : ""}>${esc(r.value)}</a>`
         : esc(r.value)}
       <button class="copy-btn" onclick="copyVal(this, '${esc(r.value).replace(/'/g, "\\'")}')">copy</button>
     </span>
   </div>`).join("");
+
+// mailto must open in the CURRENT window — target="_blank" kills the mail
+// handler in Chrome/Firefox and leaves a blank tab instead of the compose window
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href^="mailto:"]');
+  if (!a) return;
+  e.preventDefault();
+  location.href = a.getAttribute("href");
+});
 
 $("footer").innerHTML = `${esc(d.name)} &copy; ${new Date().getFullYear()}`;
 
@@ -763,7 +771,7 @@ document.querySelectorAll("nav a[href^='#']").forEach(a => a.addEventListener("c
 }));
 
 try {
-  console.log("%cS.PY", "font-size:2.5rem;font-weight:900;color:#7aa2f7;letter-spacing:2px;");
+  console.log("%cNP", "font-size:2.5rem;font-weight:900;color:#7aa2f7;letter-spacing:2px;");
   console.log(
     "You found the secret console 🕵️\nRespect. You check things like a real dev.\n→ I build full-stack stuff that works.\n→ lordsupreme1633@gmail.com\n→ Or take the cookie 🍪 and close this tab."
   );
