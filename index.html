@@ -754,11 +754,6 @@ if (matchMedia("(pointer: fine)").matches) {
   document.addEventListener("mouseout", e => { if (e.target.closest("a, button, .card, input, textarea")) ring.classList.remove("big"); });
 }
 
-const counter = $("footer");
-fetch("https://api.counterapi.dev/v1/supremepy-site/views/hit").then(r => r.ok ? r.json() : null).catch(() => null).then(x => {
-  if (x && typeof x.count === "number") counter.insertAdjacentHTML("beforeend", ` &middot; <span style="color:var(--muted)">views ${x.count}</span>`);
-});
-
 const wipe = $("navwipe");
 document.querySelectorAll("nav a[href^='#']").forEach(a => a.addEventListener("click", e => {
   e.preventDefault();
