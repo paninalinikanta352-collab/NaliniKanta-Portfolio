@@ -487,7 +487,7 @@ nav a.active { color: var(--accent); }
         <input type="email" name="Email" placeholder="Your email" required>
         <textarea name="Message" rows="4" placeholder="Your message" required></textarea>
         <button type="submit" class="btn primary sendbtn">Send message &rarr;</button>
-        <small class="form-note">Opens your mail app — no data is stored anywhere.</small>
+        <small class="form-note">Opens Gmail compose with your message prefilled — no data is stored anywhere. No Gmail? Use the copy button above.</small>
       </form>
     </div>
   </section>
@@ -577,10 +577,27 @@ $("name").textContent = d.name;
 $("tagline").textContent = d.tagline;
 $("about-text").textContent = d.about;
 
+// Email opens Gmail's web compose. A plain mailto: link does nothing on a
+// machine with no default mail app configured, so the browser route always works.
+const gmailURL = (subject = "", body = "") =>
+  "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(d.links.email) +
+  (subject ? "&su=" + encodeURIComponent(subject) : "") +
+  (body ? "&body=" + encodeURIComponent(body) : "");
+
+const openTab = url => {
+  const a = document.createElement("a");
+  a.href = url;
+  a.target = "_blank";
+  a.rel = "noopener";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+};
+
 const socialDefs = [
   ["linkedin", "LinkedIn", d.links.linkedin],
   ["github", "GitHub", d.links.github],
-  ["email", "Email", d.links.email ? "mailto:" + d.links.email : ""],
+  ["email", "Email", d.links.email ? gmailURL() : ""],
   ["telegram", "Telegram", d.links.telegram],
   ["website", "Website", d.links.website]
 ];
@@ -605,21 +622,12 @@ $("contact-box").innerHTML = d.contactRows.map(r => `
   <div class="contact-row">
     <span class="label">${esc(r.label)}</span>
     <span class="value">
-      ${r.value.startsWith("http") || r.value.includes("@") && r.label === "Email"
-        ? `<a href="${esc(r.value.startsWith("http") ? r.value : "mailto:" + r.value)}"${r.value.startsWith("http") ? ' target="_blank" rel="noopener"' : ""}>${esc(r.value)}</a>`
+      ${r.value.startsWith("http") || r.label === "Email"
+        ? `<a href="${esc(r.value.startsWith("http") ? r.value : gmailURL())}" target="_blank" rel="noopener">${esc(r.value)}</a>`
         : esc(r.value)}
       <button class="copy-btn" onclick="copyVal(this, '${esc(r.value).replace(/'/g, "\\'")}')">copy</button>
     </span>
   </div>`).join("");
-
-// mailto must open in the CURRENT window — target="_blank" kills the mail
-// handler in Chrome/Firefox and leaves a blank tab instead of the compose window
-document.addEventListener("click", e => {
-  const a = e.target.closest('a[href^="mailto:"]');
-  if (!a) return;
-  e.preventDefault();
-  location.href = a.getAttribute("href");
-});
 
 $("footer").innerHTML = `${esc(d.name)} &copy; ${new Date().getFullYear()}`;
 
@@ -728,8 +736,9 @@ addEventListener("keydown", e => { if (e.key === "Escape") modal.classList.remov
 $("contactform").addEventListener("submit", e => {
   e.preventDefault();
   const f = e.target;
-  const txt = "Message: " + f.Message.value + "\n\nFrom: " + f.Name.value + " (" + f.Email.value + ")";
-  location.href = "mailto:" + d.links.email + "?subject=" + encodeURIComponent("Portfolio message from " + f.Name.value) + "&body=" + encodeURIComponent(txt);
+  const subject = "Portfolio message from " + f.Name.value;
+  const body = "Message: " + f.Message.value + "\n\nFrom: " + f.Name.value + " (" + f.Email.value + ")";
+  openTab(gmailURL(subject, body));
   f.reset();
 });
 
